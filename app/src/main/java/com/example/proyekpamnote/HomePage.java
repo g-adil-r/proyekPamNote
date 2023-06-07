@@ -6,7 +6,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class Homepage extends AppCompatActivity {
+public class HomePage extends AppCompatActivity {
     private Button btnmasuk, btndaftar;
 
 

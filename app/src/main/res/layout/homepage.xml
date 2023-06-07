@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".HomePage"
     android:background="#EFAB95">
 
     <ImageView
@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/coolkids" />
+        app:srcCompat="@drawable/coolkidsbust" />
 
     <TextView
         android:id="@+id/textView"
@@ -26,7 +26,6 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="28dp"
-        android:fontFamily="@font/inter_semibold"
         android:text="Selamat Datang Di note"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +40,6 @@
         android:layout_marginTop="33dp"
         android:layout_marginEnd="58dp"
         android:backgroundTint="#CE826A"
-        android:fontFamily="@font/poppins_medium"
         android:text="Masuk"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +54,6 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="58dp"
         android:backgroundTint="#EFAB95"
-        android:fontFamily="@font/poppins_medium"
         android:text="Daftar"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
