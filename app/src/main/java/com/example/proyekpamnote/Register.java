@@ -29,7 +29,7 @@ public class Register extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_daftar);
+        setContentView(R.layout.register);
         editNama = findViewById(R.id.et_nama);
         editUsername = findViewById(R.id.et_username);
         editEmail = findViewById(R.id.et_email);
@@ -38,7 +38,7 @@ public class Register extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-        progressDialog = new ProgressDialog(activityDaftar.this);
+        progressDialog = new ProgressDialog(Register.this);
         progressDialog.setTitle("Loading");
         progressDialog.setMessage("Silahkan tunggu");
         progressDialog.setCancelable(false);
@@ -83,7 +83,7 @@ public class Register extends AppCompatActivity {
     }
 
     private void reload(){
-        startActivity(new Intent(getApplicationContext(), activityMasuk.class));
+        startActivity(new Intent(getApplicationContext(), Login.class));
     }
     @Override
     public void onStart() {

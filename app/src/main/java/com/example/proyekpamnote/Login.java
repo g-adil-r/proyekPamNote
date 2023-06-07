@@ -3,6 +3,7 @@ package com.example.proyekpamnote;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -24,14 +25,14 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_masuk);
+        setContentView(R.layout.login);
         editEmail = findViewById(R.id.et_email);
         editpassword = findViewById(R.id.et_password);
         btnmasuk = findViewById(R.id.btn_masuk);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-        progressDialog = new ProgressDialog(activityMasuk.this);
+        progressDialog = new ProgressDialog(Login.this);
         progressDialog.setTitle("Loading");
         progressDialog.setMessage("Silahkan tunggu");
         progressDialog.setCancelable(false);
@@ -56,7 +57,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void reload(){
-        startActivity(new Intent(getApplicationContext(), activityMasuk.class));
+        startActivity(new Intent(getApplicationContext(), Login.class));
     }
     @Override
     public void onStart() {
