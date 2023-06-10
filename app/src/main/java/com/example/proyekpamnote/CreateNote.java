@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class CreateNote extends AppCompatActivity implements View.OnClickListener {
 
-    ImageButton btnBackCreate;
+    ImageView btnBackCreate;
     TextView btnSelesai;
     EditText etJudul, etDeskripsi;
     Note note;
@@ -80,9 +81,12 @@ public class CreateNote extends AppCompatActivity implements View.OnClickListene
         String title = etJudul.getText().toString();
         String desc = etDeskripsi.getText().toString();
         String personUID = acct.getId();
-        Note noteData = new Note(title, desc);
 
-        dataRef.child("notes").child(personUID).setValue(noteData).addOnSuccessListener(CreateNote.this, new OnSuccessListener<Void>() {
+        String key = dataRef.child("notes").child(personUID).push().getKey();
+
+        Note noteData = new Note(key, title, desc);
+
+        dataRef.child("notes").child(personUID).child(key).setValue(noteData).addOnSuccessListener(CreateNote.this, new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(CreateNote.this, "Note Created", Toast.LENGTH_SHORT).show();

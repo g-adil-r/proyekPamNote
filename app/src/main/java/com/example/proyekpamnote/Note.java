@@ -1,12 +1,13 @@
 package com.example.proyekpamnote;
 
 public class Note {
-    private String judul, deskripsi, nama;
+    private String key, judul, deskripsi, nama;
 
     public Note() {
     }
 
-    public Note(String title, String description) {
+    public Note(String key, String title, String description) {
+        this.key = key;
         this.judul = judul;
         this.deskripsi = deskripsi;
     }
@@ -31,6 +32,13 @@ public class Note {
 
     public void setName() { this.nama = nama; }
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 }
 
 
