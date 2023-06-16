@@ -15,8 +15,16 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 public class NoteAdapter extends FirebaseRecyclerAdapter<Note, NoteAdapter.NoteViewHolder> {
+    RecyclerView mRecView;
+
     public NoteAdapter(@NonNull FirebaseRecyclerOptions<Note> options) {
         super(options);
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        this.mRecView = recyclerView;
     }
 
     @Override
@@ -29,7 +37,7 @@ public class NoteAdapter extends FirebaseRecyclerAdapter<Note, NoteAdapter.NoteV
     @Override
     public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.note_layout,parent,false);
+                .inflate(R.layout.note_layout, parent, false);
         return new NoteViewHolder(view);
     }
 
@@ -44,7 +52,7 @@ public class NoteAdapter extends FirebaseRecyclerAdapter<Note, NoteAdapter.NoteV
             itemCard = itemView.findViewById(R.id.note_card);
 
             itemCard.setOnLongClickListener(view -> {
-                TransitionManager.beginDelayedTransition(itemCard,new AutoTransition());
+                TransitionManager.beginDelayedTransition(mRecView, new AutoTransition());
                 itemIsi.setVisibility(View.VISIBLE);
                 return true;
             });
