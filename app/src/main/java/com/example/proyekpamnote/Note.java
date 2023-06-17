@@ -6,7 +6,7 @@ public class Note {
     public Note() {
     }
 
-    public Note(String key, String title, String description) {
+    public Note(String key, String judul, String deskripsi) {
         this.key = key;
         this.judul = judul;
         this.deskripsi = deskripsi;
@@ -16,7 +16,7 @@ public class Note {
         return judul;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String judul) {
         this.judul = judul;
     }
 
@@ -24,13 +24,13 @@ public class Note {
         return deskripsi;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(String deskripsi) {
         this.deskripsi = deskripsi;
     }
 
     public String getName() { return nama; }
 
-    public void setName() { this.nama = nama; }
+    public void setName(String nama) { this.nama = nama; }
 
     public String getKey() {
         return key;
