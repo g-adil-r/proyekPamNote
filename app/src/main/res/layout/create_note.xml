@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="346dp"
         android:layout_marginBottom="15dp"
         android:text="Judul"
@@ -53,11 +53,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginBottom="58dp"
         android:text="selesai"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/etJudul"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -80,16 +78,16 @@
         android:layout_width="330dp"
         android:layout_height="500dp"
         android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="41dp"
-        android:layout_marginBottom="25dp"
         android:background="@drawable/bg_kotak2"
         android:ems="10"
         android:gravity="start|top"
         android:hint="  ..."
         android:inputType="textMultiLine"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <EditText
         android:id="@+id/etJudul"
