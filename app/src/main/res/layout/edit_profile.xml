@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/back_arrow" />
 
     <ImageView
-        android:id="@+id/btnUpdateImage"
+        android:id="@+id/btnImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="150dp"
@@ -133,10 +133,10 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnUpdateImage" />
+        app:layout_constraintTop_toBottomOf="@+id/btnImage" />
 
     <Button
-        android:id="@+id/btnUpdateProfile"
+        android:id="@+id/btnBack"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"

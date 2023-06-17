@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E8B4A3">
+
+    <ImageView
+        android:id="@+id/btnImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/profile"
+        tools:layout_editor_absoluteX="272dp"
+        tools:layout_editor_absoluteY="49dp" />
+
+    <EditText
+        android:id="@+id/etNama"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_coklat2"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:text="       Pengaturan Profil"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="5dp"
+        tools:layout_editor_absoluteY="231dp" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pengaturan Akun"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="202dp" />
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#CE826A"
+        android:text="keluar"
+        android:textColor="#000000"
+        tools:layout_editor_absoluteX="5dp"
+        tools:layout_editor_absoluteY="357dp" />
+
+    <Button
+        android:id="@+id/btnBack3"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/ic_launcher_background"
+        android:text="Pengaturan Profil"
+        android:textAlignment="viewStart"
+        android:textColor="#000000"
+        tools:layout_editor_absoluteX="5dp"
+        tools:layout_editor_absoluteY="291dp" />
+
+    <Button
+        android:id="@+id/btnBack2"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#CE826A"
+        android:text="kembali"
+        tools:layout_editor_absoluteX="5dp"
+        tools:layout_editor_absoluteY="414dp" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="216dp"
+        android:layout_height="79dp"
+        app:srcCompat="@drawable/bg_coklat2"
+        tools:layout_editor_absoluteX="39dp"
+        tools:layout_editor_absoluteY="61dp" />
+
+    <TextView
+        android:id="@+id/tvNama"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:text="Username"
+        android:textColor="#000000"
+        tools:layout_editor_absoluteX="52dp"
+        tools:layout_editor_absoluteY="76dp" />
+
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textColor="#000000"
+        tools:layout_editor_absoluteX="52dp"
+        tools:layout_editor_absoluteY="105dp" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/forward_arrow"
+        tools:layout_editor_absoluteX="372dp"
+        tools:layout_editor_absoluteY="250dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
