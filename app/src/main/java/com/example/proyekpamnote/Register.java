@@ -1,5 +1,6 @@
 package com.example.proyekpamnote;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,13 +20,14 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class Register extends AppCompatActivity {
     private EditText editNama, editUsername, editEmail, editpassword;
-    private Button btnDaftar;
+    private Button btnDaftar, btnMasuk;
     ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
 
     public Register() {
     }
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,7 @@ public class Register extends AppCompatActivity {
         editEmail = findViewById(R.id.et_email);
         editpassword = findViewById(R.id.et_password);
         btnDaftar = findViewById(R.id.btn_daftar);
+        btnMasuk = findViewById(R.id.btn_masuk1);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -42,6 +45,7 @@ public class Register extends AppCompatActivity {
         progressDialog.setTitle("Loading");
         progressDialog.setMessage("Silahkan tunggu");
         progressDialog.setCancelable(false);
+
 
         btnDaftar.setOnClickListener(v ->{
             if(editNama.getText().length()>0 && editUsername.getText().length()>0 && editEmail.getText().length()>0 && editpassword.getText().length()>0){
@@ -53,6 +57,7 @@ public class Register extends AppCompatActivity {
 
 
         });
+
 
     }
     private void daftar(String nama, String Username, String email, String password){
