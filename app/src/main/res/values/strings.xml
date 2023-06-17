@@ -1,4 +1,6 @@
 <resources>
-    <string name="app_name">ProyekPamNote</string>
+    <string name="app_name">Notlify</string>
     <string name="title_activity_main">MainActivity</string>
 </resources>
+
+
