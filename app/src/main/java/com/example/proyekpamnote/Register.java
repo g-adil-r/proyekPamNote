@@ -88,7 +88,7 @@ public class Register extends AppCompatActivity {
     }
 
     private void reload(){
-        startActivity(new Intent(getApplicationContext(), Login.class));
+        startActivity(new Intent(getApplicationContext(), tampilNote.class));
     }
     @Override
     public void onStart() {

@@ -37,6 +37,9 @@ public class Login extends AppCompatActivity {
         progressDialog.setMessage("Silahkan tunggu");
         progressDialog.setCancelable(false);
 
+        btnmasuk.setOnClickListener(v -> {
+            masuk(editEmail.getText().toString(),editpassword.getText().toString());
+        });
     }
     private void masuk(String email, String password){
         //coding login
@@ -57,7 +60,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void reload(){
-        startActivity(new Intent(getApplicationContext(), Login.class));
+        startActivity(new Intent(getApplicationContext(), tampilNote.class));
     }
     @Override
     public void onStart() {
