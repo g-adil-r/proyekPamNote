@@ -32,6 +32,7 @@ public class tampilNote extends AppCompatActivity {
             finish();
         }
 
+        noteView = findViewById(R.id.note_rec_view);
         btAddNote = findViewById(R.id.bt_add_note);
 
         dbNote = FirebaseDatabase.getInstance().getReference()
@@ -51,5 +52,17 @@ public class tampilNote extends AppCompatActivity {
         btAddNote.setOnClickListener(v ->
                 startActivity(new Intent(getApplicationContext(), CreateNote.class))
         );
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        noteAdapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        noteAdapter.stopListening();
     }
 }

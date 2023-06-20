@@ -20,6 +20,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -76,11 +78,12 @@ public class CreateNote extends AppCompatActivity implements View.OnClickListene
             return;
         }
 
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+        // GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+        FirebaseUser acct = FirebaseAuth.getInstance().getCurrentUser();
 
         String title = etJudul.getText().toString();
         String desc = etDeskripsi.getText().toString();
-        String personUID = acct.getId();
+        String personUID = acct.getUid();
 
         String key = dataRef.child("notes").child(personUID).push().getKey();
 
