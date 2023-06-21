@@ -62,7 +62,7 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
 
         String uid = user.getUid();
 
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("notes").child(uid);
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
 
         databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -71,7 +71,7 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
 //                DataSnapshot snapshot = dataSnapshot;
                 if (dataSnapshot.exists()) {
                     String username = dataSnapshot.child("username").getValue(String.class);
-                    String email = dataSnapshot.child("email").getValue(String.class);
+                    String email = user.getEmail();
                     // Update the EditText fields with the retrieved values
                     tvNama.setText(username);
                     tvEmail.setText(email);
