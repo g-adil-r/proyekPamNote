@@ -1,5 +1,7 @@
 package com.example.proyekpamnote;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -21,8 +23,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -42,7 +46,7 @@ import java.util.concurrent.Executors;
 public class EditProfile extends AppCompatActivity implements View.OnClickListener{
 
     private static final int REQUEST_IMAGE_PICK = 1;
-    EditText etNama, etUsername,etEmail, etPassword;
+    EditText etNama, etUsername,etEmail, etOldPassword, etNewPassword;
     ImageView btnBackEdit,btnUpdateImage;
     Button btnUpdateProfile;
 
@@ -56,7 +60,9 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         etNama = findViewById(R.id.etNama);
         etUsername = findViewById(R.id.etUsername);
         etEmail = findViewById(R.id.etEmail);
-        etPassword = findViewById(R.id.etPassword);
+        etOldPassword = findViewById(R.id.etOldPassword);
+        etNewPassword = findViewById(R.id.etNewPassword);
+
         btnUpdateImage = findViewById(R.id.profileImage);
 
         btnBackEdit.setOnClickListener(this);
@@ -64,7 +70,8 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         etNama.setOnClickListener(this);
         etUsername.setOnClickListener(this);
         etEmail.setOnClickListener(this);
-        etPassword.setOnClickListener(this);
+        etOldPassword.setOnClickListener(this);
+        etNewPassword.setOnClickListener(this);
         btnUpdateImage.setOnClickListener(this);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -82,7 +89,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Initialize a DataSnapshot object with the retrieved data
-                DataSnapshot snapshot = dataSnapshot;
+//                DataSnapshot snapshot = dataSnapshot;
                 if (dataSnapshot.exists()) {
                     String nama = dataSnapshot.child("nama").getValue(String.class);
                     String username = dataSnapshot.child("username").getValue(String.class);
@@ -92,8 +99,6 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                     etNama.setText(nama);
                     etUsername.setText(username);
                     etEmail.setText(email);
-
-
                 }
             }
 
@@ -103,7 +108,8 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
             }
         });
 
-        etPassword.setTransformationMethod(new PasswordTransformationMethod());
+        etOldPassword.setTransformationMethod(new PasswordTransformationMethod());
+        etNewPassword.setTransformationMethod(new PasswordTransformationMethod());
 
     }
 
@@ -235,14 +241,79 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         String nama = (String) etNama.getText().toString();
         String username = (String) etUsername.getText().toString();
         String email = (String) etEmail.getText().toString();
-        String password = (String) etPassword.getText().toString();
+        String oldPassword = (String) etOldPassword.getText().toString();
+        String newPassword = (String) etNewPassword.getText().toString();
+
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("notes").child(uid);
+
+        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Initialize a DataSnapshot object with the retrieved data
+                //DataSnapshot snapshot = dataSnapshot;
+                if (dataSnapshot.exists()) {
+                    String password = dataSnapshot.child("password").getValue(String.class);
+
+                    if (oldPassword.equals(password)) {
+
+                        user.updatePassword(newPassword)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d(TAG, "User password updated.");
+                                    }
+                                }
+                            });
+
+                        DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
+                        updateRef.child("password").setValue(newPassword);
+
+                        updateRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+//                                    String nama = dataSnapshot.child("nama").getValue(String.class);
+//                                    String username = dataSnapshot.child("username").getValue(String.class);
+//                                    String email = dataSnapshot.child("email").getValue(String.class);
+                                    String newPassword = dataSnapshot.child("password").getValue(String.class);
+
+                                    // Update the EditText fields with the retrieved values
+//                                    etNama.setText(nama);
+//                                    etUsername.setText(username);
+//                                    etEmail.setText(email);
+//                  etNewPassword.setText(password);
+                                    finish();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(EditProfile.this, "Failed to Read Data", Toast.LENGTH_SHORT).show();
+                            }
+
+                        });
+                    }
+
+                    else {
+                        Toast.makeText(EditProfile.this, "Password tidak sama, coba lagi", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
 
         updateRef.child("nama").setValue(nama);
         updateRef.child("username").setValue(username);
         updateRef.child("email").setValue(email);
-        updateRef.child("password").setValue(password);
+//        updateRef.child("password").setValue(newPassword);
 
         updateRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -251,13 +322,13 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                     String nama = dataSnapshot.child("nama").getValue(String.class);
                     String username = dataSnapshot.child("username").getValue(String.class);
                     String email = dataSnapshot.child("email").getValue(String.class);
-                    String password = dataSnapshot.child("password").getValue(String.class);
+//                  String newPassword = dataSnapshot.child("password").getValue(String.class);
 
                     // Update the EditText fields with the retrieved values
                     etNama.setText(nama);
                     etUsername.setText(username);
                     etEmail.setText(email);
-                    etPassword.setText(password);
+//                  etNewPassword.setText(password);
 
                     finish();
                 }

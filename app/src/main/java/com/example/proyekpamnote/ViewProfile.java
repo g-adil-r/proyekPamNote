@@ -70,10 +70,10 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
                 // Initialize a DataSnapshot object with the retrieved data
                 DataSnapshot snapshot = dataSnapshot;
                 if (dataSnapshot.exists()) {
-                    String nama = dataSnapshot.child("nama").getValue(String.class);
+                    String username = dataSnapshot.child("username").getValue(String.class);
                     String email = dataSnapshot.child("email").getValue(String.class);
                     // Update the EditText fields with the retrieved values
-                    tvNama.setText(nama);
+                    tvNama.setText(username);
                     tvEmail.setText(email);
                 }
             }

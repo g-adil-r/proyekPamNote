@@ -78,20 +78,36 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <EditText
-        android:id="@+id/etPassword"
+        android:id="@+id/etOldPassword"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="39dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="14dp"
         android:layout_marginEnd="42dp"
         android:background="@drawable/bg_kotak"
         android:ems="10"
-        android:hint="  Password"
+        android:hint="  Old Password"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_masuk1" />
+
+    <EditText
+        android:id="@+id/etNewPassword"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="39dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="42dp"
+        android:background="@drawable/bg_kotak"
+        android:ems="10"
+        android:hint="  New Password"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etOldPassword" />
 
     <TextView
         android:id="@+id/textView5"
@@ -139,16 +155,16 @@
         android:id="@+id/btnLogout"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="41dp"
-        android:layout_marginBottom="83dp"
-        android:text="simpan"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="43dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="#CE826A"
+        android:text="simpan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/etNewPassword" />
 
     <TextView
         android:id="@+id/textView"
