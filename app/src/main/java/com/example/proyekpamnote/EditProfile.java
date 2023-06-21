@@ -1,6 +1,7 @@
 package com.example.proyekpamnote;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -22,8 +23,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,9 +47,6 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
     EditText etNama, etUsername,etEmail, etPassword;
     ImageView btnBackEdit,btnUpdateImage;
     Button btnUpdateProfile;
-    private GoogleSignInOptions gso;
-    private GoogleSignInClient gsc;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +54,12 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.edit_profile);
 
         btnBackEdit = findViewById(R.id.btnBackEdit);
-        btnUpdateProfile = findViewById(R.id.btnBack);
+        btnUpdateProfile = findViewById(R.id.btnLogout);
         etNama = findViewById(R.id.etNama);
         etUsername = findViewById(R.id.etUsername);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
-        btnUpdateImage = findViewById(R.id.btnImage);
+        btnUpdateImage = findViewById(R.id.profileImage);
 
         btnBackEdit.setOnClickListener(this);
         btnUpdateProfile.setOnClickListener(this);
@@ -73,11 +69,9 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         etPassword.setOnClickListener(this);
         btnUpdateImage.setOnClickListener(this);
 
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        gsc = GoogleSignIn.getClient(this, gso);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
-        String uid = acct.getId();
+        String uid = user.getUid();
 
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("notes").child(uid);
 
@@ -90,13 +84,12 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                     String nama = dataSnapshot.child("nama").getValue(String.class);
                     String username = dataSnapshot.child("username").getValue(String.class);
                     String email = dataSnapshot.child("email").getValue(String.class);
-                    String password = dataSnapshot.child("password").getValue(String.class);
 
                     // Update the EditText fields with the retrieved values
                     etNama.setText(nama);
                     etUsername.setText(username);
                     etEmail.setText(email);
-                    etPassword.setText(password);
+
 
                 }
             }
@@ -117,10 +110,10 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
             case R.id.btnBackEdit:
                 back();
                 break;
-            case R.id.btnImage:
+            case R.id.profileImage:
                 updateImage();
                 break;
-            case R.id.btnBack:
+            case R.id.btnLogout:
                 updateProfile();
                 break;
         }
@@ -137,7 +130,6 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (requestCode == REQUEST_IMAGE_PICK && resultCode == RESULT_OK && data != null) {
             Uri selectedImageUri = data.getData();
@@ -147,7 +139,6 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
 
     private void uploadSelectedImage(Uri imageUri) {
         Log.d("ImageUri", imageUri.toString());
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         // Create a storage reference to the cloud storage
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
         // Generate a unique ID for the uploaded file
@@ -166,8 +157,13 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                             public void onSuccess(Uri downloadUri) {
                                 // Handle the download URL of the uploaded image here
                                 String imageUrl = downloadUri.toString();
-//                                btnUpdateImage.setImageURI(downloadUri);
                                 Log.d("downloadUri", imageUrl);
+
+                                    // Store the download URL in SharedPreferences
+                                    SharedPreferences preferences = getSharedPreferences("ImagePrefs", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putString("imageUrl", imageUrl);
+                                    editor.apply();
 
                                 // Declaring executor to parse the URL
                                 ExecutorService executor = Executors.newSingleThreadExecutor();

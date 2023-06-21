@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/back_arrow" />
 
     <ImageView
-        android:id="@+id/btnImage"
+        android:id="@+id/profileImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="150dp"
@@ -133,10 +133,10 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnImage" />
+        app:layout_constraintTop_toBottomOf="@+id/profileImage" />
 
     <Button
-        android:id="@+id/btnBack"
+        android:id="@+id/btnLogout"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
