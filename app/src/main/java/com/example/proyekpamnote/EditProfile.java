@@ -58,7 +58,6 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         btnUpdateProfile = findViewById(R.id.btnLogout);
         etNama = findViewById(R.id.etNama);
         etUsername = findViewById(R.id.etUsername);
-//        etEmail = findViewById(R.id.etEmail);
         etOldPassword = findViewById(R.id.etNewPassword);
         etNewPassword = findViewById(R.id.etOldPassword);
 
@@ -66,11 +65,6 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
 
         btnBackEdit.setOnClickListener(this);
         btnUpdateProfile.setOnClickListener(this);
-        etNama.setOnClickListener(this);
-        etUsername.setOnClickListener(this);
-        etEmail.setOnClickListener(this);
-        etOldPassword.setOnClickListener(this);
-        etNewPassword.setOnClickListener(this);
         btnUpdateImage.setOnClickListener(this);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
