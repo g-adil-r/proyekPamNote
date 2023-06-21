@@ -115,7 +115,7 @@ public class tampilNote extends AppCompatActivity implements View.OnClickListene
 
         private void profile() {
             try {
-                startActivity(new Intent(tampilNote.this, EditProfile.class));
+                startActivity(new Intent(tampilNote.this, ViewProfile.class));
             } catch (Exception e) {
                 Toast.makeText(tampilNote.this, "Gagal masuk edit profile", Toast.LENGTH_SHORT).show();
             }
