@@ -253,6 +253,8 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                     etUsername.setText(username);
                     etEmail.setText(email);
                     etPassword.setText(password);
+
+                    finish();
                 }
             }
 
