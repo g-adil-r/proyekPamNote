@@ -150,6 +150,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                     Glide.with(getApplicationContext())
                             .load(imageUrl)
                             .override(150, 150)
+                            .error(R.drawable.profile)
                             .into(btnUpdateImage);
                 });
             }
@@ -205,48 +206,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
 
                                 Log.d("downloadUri", imageUrl);
 
-                                // Declaring executor to parse the URL
-                                ExecutorService executor = Executors.newSingleThreadExecutor();
-
-                                // Once the executor parses the URL
-                                // and receives the image, handler will load it
-                                // in the ImageView
-                                Handler handler = new Handler(Looper.getMainLooper());
-
-                                // Initializing the image
-                                final Bitmap[] image = {null};
-
-                                // Only for Background process (can take time depending on the Internet speed)
-                                executor.execute(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        // Image URL
-                                        String imageURL = downloadUri.toString();
-                                        // Tries to get the image and post it in the ImageView
-                                        // with the help of Handler
-                                        try {
-                                            InputStream in = new java.net.URL(imageURL).openStream();
-                                            image[0] = BitmapFactory.decodeStream(in);
-                                            // Only for making changes in UI
-                                            handler.post(new Runnable() {
-                                                @Override
-                                                public void run() {
-//                                                    btnUpdateImage.setImageBitmap(image[0]);
-
-                                                    Glide.with(getApplicationContext())
-                                                            .load(imageURL)
-                                                            .override(100, 100)
-                                                            .into(btnUpdateImage);
-                                                }
-                                            });
-                                        }
-                                        // If the URL does not point to
-                                        // an image or any other kind of failure
-                                        catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                });
+                                loadImage();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -288,6 +248,8 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                         user.reauthenticate(credential).addOnSuccessListener(unused -> {
                             user.updatePassword(newPassword).addOnSuccessListener(unused1 -> {
                                 Toast.makeText(EditProfile.this, "Berhasil", Toast.LENGTH_SHORT).show();
+                            }).addOnFailureListener(e -> {
+                                Toast.makeText(EditProfile.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             });
                         }).addOnFailureListener(e -> {
                             Toast.makeText(EditProfile.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();

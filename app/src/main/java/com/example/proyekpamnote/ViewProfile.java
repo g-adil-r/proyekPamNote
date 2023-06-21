@@ -117,6 +117,7 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
                             Glide.with(getApplicationContext())
                                     .load(imageUrl)
                                     .override(100, 100)
+                                    .error(R.drawable.profile)
                                     .into(profileImage);
                         }
                     });

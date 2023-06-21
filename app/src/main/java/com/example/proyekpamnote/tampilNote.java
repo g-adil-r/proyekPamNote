@@ -134,6 +134,7 @@ public class tampilNote extends AppCompatActivity implements View.OnClickListene
                     Glide.with(getApplicationContext())
                             .load(imageUrl)
                             .override(60, 60)
+                            .error(R.drawable.profile)
                             .into(imgProf);
                 });
             }
