@@ -29,7 +29,7 @@
         app:srcCompat="@drawable/bg_coklat" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/imgProf"
         android:layout_width="57dp"
         android:layout_height="63dp"
         android:layout_marginEnd="5dp"
