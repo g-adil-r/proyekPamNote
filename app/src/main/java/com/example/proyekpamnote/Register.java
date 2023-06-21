@@ -19,11 +19,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
 
@@ -86,7 +83,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Log.d(TAG, "createUserWithEmail:succes");
+                    Log.d(TAG, "createUserWithEmail:success");
                     FirebaseUser user = mAuth.getCurrentUser();
                     updateUI(user);
                     Toast.makeText(Register.this, user.toString(),Toast.LENGTH_SHORT).show();
@@ -105,27 +102,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
 
         updateRef.child("username").setValue(username);
-        updateRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String username = dataSnapshot.child("username").getValue(String.class);
-//                  String newPassword = dataSnapshot.child("password").getValue(String.class);
 
-                    // Update the EditText fields with the retrieved values
-//                    etNama.setText(nama);
-//                    etUsername.setText(username);
-//                    etEmail.setText(email);
-//                  etNewPassword.setText(password);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Register.this, "Failed to Read Data", Toast.LENGTH_SHORT).show();
-            }
-
-        });
     }
 
     private boolean validateForm() {
@@ -164,9 +141,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 }
             }
         });
-    }
-
-    private void login() {
     }
 }
 
