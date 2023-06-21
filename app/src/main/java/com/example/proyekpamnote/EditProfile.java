@@ -21,8 +21,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -226,9 +224,9 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
 
     private void updateProfile() {
 
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        String uid = acct.getId();
+        String uid = user.getUid();
         String nama = (String) etNama.getText().toString();
         String username = (String) etUsername.getText().toString();
         String email = (String) etEmail.getText().toString();
