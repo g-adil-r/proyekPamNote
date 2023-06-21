@@ -87,21 +87,23 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                     FirebaseUser user = mAuth.getCurrentUser();
                     updateUI(user);
                     Toast.makeText(Register.this, user.toString(),Toast.LENGTH_SHORT).show();
+                    String uid = user.getUid();
+                    String username = String.valueOf(editUsername.getText());
+
+                    DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
+
+                    updateRef.child("username").setValue(username);
                 } else {
                     Log.d(TAG, "createUserWithEmail:failure", task.getException());
                     Toast.makeText(Register.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                     updateUI(null);
                 }
+
+
             }
         });
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
-        String username = String.valueOf(editUsername.getText());
 
-        DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
-
-        updateRef.child("username").setValue(username);
 
     }
 
