@@ -91,16 +91,16 @@ public class tampilNote extends AppCompatActivity implements View.OnClickListene
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
+        DatabaseReference profiles = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
 
-        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        profiles.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Initialize a DataSnapshot object with the retrieved data
 //                DataSnapshot snapshot = dataSnapshot;
                 if (dataSnapshot.exists()) {
                     imageUrl = dataSnapshot.child("downloadUrl").getValue(String.class);
-
+                    loadImage();
                 }
             }
 
@@ -109,9 +109,9 @@ public class tampilNote extends AppCompatActivity implements View.OnClickListene
 
             }
         });
+    }
 
-
-
+    private void loadImage() {
         // Retrieve the download URL from SharedPreferences
 //        SharedPreferences preferences = getSharedPreferences("ImagePrefs", MODE_PRIVATE);
         // Declaring executor to parse the URL
@@ -121,42 +121,29 @@ public class tampilNote extends AppCompatActivity implements View.OnClickListene
         // and receives the image, handler will load it
         // in the ImageView
         Handler handler = new Handler(Looper.getMainLooper());
-
-        // Initializing the image
-        final Bitmap[] image = {null};
-
         // Only for Background process (can take time depending on the Internet speed)
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                // Image URL
-                // Tries to get the image and post it in the ImageView
-                // with the help of Handler
-                try {
-                    InputStream in = new java.net.URL(imageUrl).openStream();
-                    image[0] = BitmapFactory.decodeStream(in);
-                    // Only for making changes in UI
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-// btnUpdateImage.setImageBitmap(image[0]);
+        executor.execute(() -> {
+            // Image URL
+            // Tries to get the image and post it in the ImageView
+            // with the help of Handler
+            try {
+                // Only for making changes in UI
+                handler.post(() -> {
+                    // btnUpdateImage.setImageBitmap(image[0]);
 
-                            Glide.with(getApplicationContext())
-                                    .load(imageUrl)
-                                    .override(60, 60)
-                                    .into(imgProf);
-                        }
-                    });
-                }
-                // If the URL does not point to
-                // an image or any other kind of failure
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    Glide.with(getApplicationContext())
+                            .load(imageUrl)
+                            .override(60, 60)
+                            .into(imgProf);
+                });
+            }
+            // If the URL does not point to
+            // an image or any other kind of failure
+            catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }
-
     @Override
     protected void onStart() {
         super.onStart();

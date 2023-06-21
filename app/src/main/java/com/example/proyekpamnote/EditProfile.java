@@ -27,6 +27,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -45,9 +48,10 @@ import java.util.concurrent.Executors;
 public class EditProfile extends AppCompatActivity implements View.OnClickListener{
 
     private static final int REQUEST_IMAGE_PICK = 1;
-    EditText etNama, etUsername,etEmail, etOldPassword, etNewPassword;
+    EditText etNama, etUsername, etOldPassword, etNewPassword;
     ImageView btnBackEdit,btnUpdateImage;
     Button btnUpdateProfile;
+    String imageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +62,8 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         btnUpdateProfile = findViewById(R.id.btnLogout);
         etNama = findViewById(R.id.etNama);
         etUsername = findViewById(R.id.etUsername);
-        etOldPassword = findViewById(R.id.etNewPassword);
-        etNewPassword = findViewById(R.id.etOldPassword);
+        etOldPassword = findViewById(R.id.etOldPassword);
+        etNewPassword = findViewById(R.id.etNewPassword);
 
         btnUpdateImage = findViewById(R.id.profileImage);
 
@@ -78,7 +82,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
 
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
 
-        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Initialize a DataSnapshot object with the retrieved data
@@ -86,12 +90,12 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                 if (dataSnapshot.exists()) {
                     String nama = dataSnapshot.child("nama").getValue(String.class);
                     String username = dataSnapshot.child("username").getValue(String.class);
-                    String email = user.getEmail();
+                    imageUrl = dataSnapshot.child("downloadUrl").getValue(String.class);
+                    loadImage();
 
                     // Update the EditText fields with the retrieved values
                     etNama.setText(nama);
                     etUsername.setText(username);
-                    etEmail.setText(email);
                 }
             }
 
@@ -122,6 +126,39 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
     }
     private void back() {
         finish();
+    }
+    private void loadImage() {
+        // Retrieve the download URL from SharedPreferences
+//        SharedPreferences preferences = getSharedPreferences("ImagePrefs", MODE_PRIVATE);
+        // Declaring executor to parse the URL
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        // Once the executor parses the URL
+        // and receives the image, handler will load it
+        // in the ImageView
+        Handler handler = new Handler(Looper.getMainLooper());
+        // Only for Background process (can take time depending on the Internet speed)
+        executor.execute(() -> {
+            // Image URL
+            // Tries to get the image and post it in the ImageView
+            // with the help of Handler
+            try {
+                // Only for making changes in UI
+                handler.post(() -> {
+                    // btnUpdateImage.setImageBitmap(image[0]);
+
+                    Glide.with(getApplicationContext())
+                            .load(imageUrl)
+                            .override(150, 150)
+                            .into(btnUpdateImage);
+                });
+            }
+            // If the URL does not point to
+            // an image or any other kind of failure
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
     private void updateImage() {
         // Create an intent to open the image gallery
@@ -164,7 +201,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                                 String imageUrl = downloadUri.toString();
 
                                 DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
-                                updateRef.child("downloadUri").setValue(imageUrl);
+                                updateRef.child("downloadUrl").setValue(imageUrl);
 
                                 Log.d("downloadUri", imageUrl);
 
@@ -234,81 +271,68 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         String uid = user.getUid();
         String nama = (String) etNama.getText().toString();
         String username = (String) etUsername.getText().toString();
-        String email = (String) etEmail.getText().toString();
         String oldPassword = (String) etOldPassword.getText().toString();
         String newPassword = (String) etNewPassword.getText().toString();
 
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("notes").child(uid);
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
 
-        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Initialize a DataSnapshot object with the retrieved data
-                //DataSnapshot snapshot = dataSnapshot;
-                if (dataSnapshot.exists()) {
-                    String password = dataSnapshot.child("password").getValue(String.class);
+        if (!oldPassword.isEmpty()) {
+            databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        AuthCredential credential = EmailAuthProvider
+                                .getCredential(user.getEmail(), oldPassword);
 
-                    if (oldPassword.equals(password)) {
-
-                        user.updatePassword(newPassword)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Log.d(TAG, "User password updated.");
-                                    }
-                                }
+                        user.reauthenticate(credential).addOnSuccessListener(unused -> {
+                            user.updatePassword(newPassword).addOnSuccessListener(unused1 -> {
+                                Toast.makeText(EditProfile.this, "Berhasil", Toast.LENGTH_SHORT).show();
                             });
-
-                        DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
-                        updateRef.child("password").setValue(newPassword);
-                    }
-
-                    else {
-                        Toast.makeText(EditProfile.this, "Password tidak sama, coba lagi", Toast.LENGTH_SHORT).show();
-
+                        }).addOnFailureListener(e -> {
+                            Toast.makeText(EditProfile.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        });
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+            finish();
+        }
 
         DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
 
         updateRef.child("nama").setValue(nama);
-        updateRef.child("username").setValue(username);
-        updateRef.child("email").setValue(email);
-//        updateRef.child("password").setValue(newPassword);
-
-        updateRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String nama = dataSnapshot.child("nama").getValue(String.class);
-                    String username = dataSnapshot.child("username").getValue(String.class);
-                    String email = dataSnapshot.child("email").getValue(String.class);
-//                  String newPassword = dataSnapshot.child("password").getValue(String.class);
-
-                    // Update the EditText fields with the retrieved values
-                    etNama.setText(nama);
-                    etUsername.setText(username);
-                    etEmail.setText(email);
-//                  etNewPassword.setText(password);
-
-                    finish();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(EditProfile.this, "Failed to Read Data", Toast.LENGTH_SHORT).show();
-            }
-
+        updateRef.child("username").setValue(username).addOnSuccessListener(unused -> {
+//            finish();
         });
+
+//        updateRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists()) {
+//                    String nama = dataSnapshot.child("nama").getValue(String.class);
+//                    String username = dataSnapshot.child("username").getValue(String.class);
+////                  String newPassword = dataSnapshot.child("password").getValue(String.class);
+//
+//                    // Update the EditText fields with the retrieved values
+//                    etNama.setText(nama);
+//                    etUsername.setText(username);
+////                  etNewPassword.setText(password);
+//
+//                    finish();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Toast.makeText(EditProfile.this, "Failed to Read Data", Toast.LENGTH_SHORT).show();
+//            }
+//
+//        });
 
     }
     private boolean validatePass() {

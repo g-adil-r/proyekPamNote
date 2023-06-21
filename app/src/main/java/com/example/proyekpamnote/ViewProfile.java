@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -64,7 +65,7 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
 
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
 
-        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Initialize a DataSnapshot object with the retrieved data
@@ -73,9 +74,11 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
                     String username = dataSnapshot.child("username").getValue(String.class);
                     String email = user.getEmail();
                     imageUrl = dataSnapshot.child("downloadUrl").getValue(String.class);
+//                    Log.d("Load",imageUrl);
                     // Update the EditText fields with the retrieved values
                     tvNama.setText(username);
                     tvEmail.setText(email);
+                    loadImage();
                 }
             }
 
@@ -84,6 +87,9 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
 
             }
         });
+    }
+
+    private void loadImage() {
         // Declaring executor to parse the URL
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -103,14 +109,11 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
                 // Tries to get the image and post it in the ImageView
                 // with the help of Handler
                 try {
-                    InputStream in = new java.net.URL(imageUrl).openStream();
-                    image[0] = BitmapFactory.decodeStream(in);
                     // Only for making changes in UI
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
 //                      btnUpdateImage.setImageBitmap(image[0]);
-
                             Glide.with(getApplicationContext())
                                     .load(imageUrl)
                                     .override(100, 100)
