@@ -155,8 +155,8 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
 
                 FirebaseAuth user = FirebaseAuth.getInstance();
                 user.signOut();
-                finish();
-                startActivity(new Intent(ViewProfile.this, Login.class));
+                finishAffinity();
+                startActivity(new Intent(ViewProfile.this, HomePage.class));
 
             }
 
