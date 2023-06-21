@@ -36,6 +36,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
         editEmail = findViewById(R.id.et_email);
         editPassword = findViewById(R.id.et_password);
+        editNama = findViewById(R.id.et_nama);
+        editUsername = findViewById(R.id.et_username);
         btnDaftar = findViewById(R.id.btn_daftar);
         btnMasuk = findViewById(R.id.btn_masuk1);
 
