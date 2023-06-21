@@ -39,6 +39,11 @@ public class EditNote extends AppCompatActivity implements View.OnClickListener 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        if (user == null) {
+            startActivity(new Intent(this, HomePage.class));
+            finish();
+        }
+
         dataRef = FirebaseDatabase.getInstance()
                 .getReference()
                 .child("notes")

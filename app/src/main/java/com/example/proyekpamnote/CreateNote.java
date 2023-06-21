@@ -1,5 +1,6 @@
 package com.example.proyekpamnote;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -35,6 +36,13 @@ public class CreateNote extends AppCompatActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_note);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user == null) {
+            startActivity(new Intent(this, HomePage.class));
+            finish();
+        }
 
         btnBackCreate = findViewById(R.id.btnBackEdit);
         btnSelesai = findViewById(R.id.btnSelesai);

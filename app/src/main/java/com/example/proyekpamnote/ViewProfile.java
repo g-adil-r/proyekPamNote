@@ -54,6 +54,12 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user == null) {
+            startActivity(new Intent(this, HomePage.class));
+            finish();
+        }
+
         String uid = user.getUid();
 
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("notes").child(uid);
