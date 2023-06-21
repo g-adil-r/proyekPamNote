@@ -149,19 +149,6 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/etNewPassword"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="39dp"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="42dp"
-                android:background="@drawable/bg_kotak"
-                android:ems="10"
-                android:hint="  New Password"
-                android:inputType="textPersonName"
-                android:minHeight="48dp" />
-
-            <EditText
                 android:id="@+id/etOldPassword"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -171,6 +158,19 @@
                 android:background="@drawable/bg_kotak"
                 android:ems="10"
                 android:hint="  Old Password"
+                android:inputType="textPersonName"
+                android:minHeight="48dp" />
+
+            <EditText
+                android:id="@+id/etNewPassword"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="39dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="42dp"
+                android:background="@drawable/bg_kotak"
+                android:ems="10"
+                android:hint="  New Password"
                 android:inputType="textPersonName"
                 android:minHeight="48dp" />
 

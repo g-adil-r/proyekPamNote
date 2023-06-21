@@ -61,8 +61,8 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         etNama = findViewById(R.id.etNama);
         etUsername = findViewById(R.id.etUsername);
         etEmail = findViewById(R.id.etEmail);
-        etOldPassword = findViewById(R.id.etOldPassword);
-        etNewPassword = findViewById(R.id.etNewPassword);
+        etOldPassword = findViewById(R.id.etNewPassword);
+        etNewPassword = findViewById(R.id.etOldPassword);
 
         btnUpdateImage = findViewById(R.id.profileImage);
 
