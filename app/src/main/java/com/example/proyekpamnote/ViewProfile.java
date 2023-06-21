@@ -68,7 +68,7 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Initialize a DataSnapshot object with the retrieved data
-                DataSnapshot snapshot = dataSnapshot;
+//                DataSnapshot snapshot = dataSnapshot;
                 if (dataSnapshot.exists()) {
                     String username = dataSnapshot.child("username").getValue(String.class);
                     String email = dataSnapshot.child("email").getValue(String.class);

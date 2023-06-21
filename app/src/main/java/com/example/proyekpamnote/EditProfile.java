@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -268,31 +269,6 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
 
                         DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
                         updateRef.child("password").setValue(newPassword);
-
-                        updateRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.exists()) {
-//                                    String nama = dataSnapshot.child("nama").getValue(String.class);
-//                                    String username = dataSnapshot.child("username").getValue(String.class);
-//                                    String email = dataSnapshot.child("email").getValue(String.class);
-                                    String newPassword = dataSnapshot.child("password").getValue(String.class);
-
-                                    // Update the EditText fields with the retrieved values
-//                                    etNama.setText(nama);
-//                                    etUsername.setText(username);
-//                                    etEmail.setText(email);
-//                  etNewPassword.setText(password);
-                                    finish();
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                Toast.makeText(EditProfile.this, "Failed to Read Data", Toast.LENGTH_SHORT).show();
-                            }
-
-                        });
                     }
 
                     else {
@@ -342,32 +318,14 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         });
 
     }
-//    private boolean validateForm() {
-//        boolean result = true;
-//        if (TextUtils.isEmpty(etNama.getText().toString())) {
-//            etNama.setError("Required");
-//            result = false;
-//        } else {
-//            etNama.setError(null);
-//        }
-//        if (TextUtils.isEmpty(etUsername.getText().toString())) {
-//            etUsername.setError("Required");
-//            result = false;
-//        } else {
-//            etUsername.setError(null);
-//        }
-//        if (TextUtils.isEmpty(etEmail.getText().toString())) {
-//            etEmail.setError("Required");
-//            result = false;
-//        } else {
-//            etEmail.setError(null);
-//        }
-//        if (TextUtils.isEmpty(etPassword.getText().toString())) {
-//            etPassword.setError("Required");
-//            result = false;
-//        } else {
-//            etPassword.setError(null);
-//        }
-//        return result;
-//    }
+    private boolean validatePass() {
+        boolean result = true;
+        if (TextUtils.isEmpty(etNewPassword.getText().toString())) {
+            etNama.setError("Required");
+            result = false;
+        } else {
+            etNama.setError(null);
+        }
+        return result;
+    }
 }
