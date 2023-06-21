@@ -3,6 +3,7 @@ package com.example.proyekpamnote;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -117,7 +118,8 @@ public class tampilNote extends AppCompatActivity implements View.OnClickListene
             try {
                 startActivity(new Intent(tampilNote.this, ViewProfile.class));
             } catch (Exception e) {
-                Toast.makeText(tampilNote.this, "Gagal masuk edit profile", Toast.LENGTH_SHORT).show();
+                Log.d("profile", e.getLocalizedMessage());
+                Toast.makeText(tampilNote.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
