@@ -90,7 +90,7 @@ public class tampilNote extends AppCompatActivity implements View.OnClickListene
         );
 
         // Retrieve the download URL from SharedPreferences
-        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("ImagePrefs", MODE_PRIVATE);
         // Declaring executor to parse the URL
         ExecutorService executor = Executors.newSingleThreadExecutor();
 

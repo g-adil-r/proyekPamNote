@@ -162,11 +162,11 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                                 String imageUrl = downloadUri.toString();
                                 Log.d("downloadUri", imageUrl);
 
-                                    // Store the download URL in SharedPreferences
-                                    SharedPreferences preferences = getSharedPreferences("ImagePrefs", MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = preferences.edit();
-                                    editor.putString("imageUrl", imageUrl);
-                                    editor.apply();
+                                // Store the download URL in SharedPreferences
+                                SharedPreferences preferences = getSharedPreferences("ImagePrefs", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putString("imageUrl", imageUrl);
+                                editor.apply();
 
                                 // Declaring executor to parse the URL
                                 ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -237,7 +237,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         String email = (String) etEmail.getText().toString();
         String password = (String) etPassword.getText().toString();
 
-        DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("notes").child(uid);
+        DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
 
         updateRef.child("nama").setValue(nama);
         updateRef.child("username").setValue(username);

@@ -84,7 +84,7 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
             }
         });
         // Retrieve the download URL from SharedPreferences
-        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("ImagePrefs", MODE_PRIVATE);
         // Declaring executor to parse the URL
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -102,6 +102,7 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
             public void run() {
                 // Image URL
                 String imageUrl = preferences.getString("imageUrl", null);
+//                Log.d("imageUrl", imageUrl);
                 // Tries to get the image and post it in the ImageView
                 // with the help of Handler
                 try {
@@ -111,7 +112,7 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-//                                                    btnUpdateImage.setImageBitmap(image[0]);
+//                      btnUpdateImage.setImageBitmap(image[0]);
 
                             Glide.with(getApplicationContext())
                                     .load(imageUrl)
