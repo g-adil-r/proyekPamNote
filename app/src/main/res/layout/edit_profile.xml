@@ -136,7 +136,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btnImage" />
 
     <Button
-        android:id="@+id/btnBack"
+        android:id="@+id/btnLogout"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"

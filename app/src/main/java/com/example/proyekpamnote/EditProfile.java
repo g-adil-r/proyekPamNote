@@ -58,7 +58,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.edit_profile);
 
         btnBackEdit = findViewById(R.id.btnBackEdit);
-        btnUpdateProfile = findViewById(R.id.btnBack);
+        btnUpdateProfile = findViewById(R.id.btnLogout);
         etNama = findViewById(R.id.etNama);
         etUsername = findViewById(R.id.etUsername);
         etEmail = findViewById(R.id.etEmail);
@@ -120,7 +120,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
             case R.id.btnImage:
                 updateImage();
                 break;
-            case R.id.btnBack:
+            case R.id.btnLogout:
                 updateProfile();
                 break;
         }
