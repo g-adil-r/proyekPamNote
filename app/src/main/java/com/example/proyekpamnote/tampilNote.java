@@ -89,8 +89,14 @@ public class tampilNote extends AppCompatActivity implements View.OnClickListene
                 startActivity(new Intent(getApplicationContext(), CreateNote.class))
         );
 
-        // Retrieve the download URL from SharedPreferences
+        // Store the download URL in SharedPreferences
         SharedPreferences preferences = getSharedPreferences("ImagePrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putString("imageUrl", user.getUid());
+        editor.apply();
+        // Retrieve the download URL from SharedPreferences
+//        SharedPreferences preferences = getSharedPreferences("ImagePrefs", MODE_PRIVATE);
         // Declaring executor to parse the URL
         ExecutorService executor = Executors.newSingleThreadExecutor();
 

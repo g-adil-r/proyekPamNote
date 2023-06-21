@@ -83,8 +83,16 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
 
             }
         });
-        // Retrieve the download URL from SharedPreferences
+
+
+        // Store the download URL in SharedPreferences
         SharedPreferences preferences = getSharedPreferences("ImagePrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putString("imageUrl", uid);
+        editor.apply();
+        // Retrieve the download URL from SharedPreferences
+//        SharedPreferences preferences = getSharedPreferences("ImagePrefs", MODE_PRIVATE);
         // Declaring executor to parse the URL
         ExecutorService executor = Executors.newSingleThreadExecutor();
 

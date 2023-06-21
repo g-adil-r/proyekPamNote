@@ -3,7 +3,6 @@ package com.example.proyekpamnote;
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -40,7 +39,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.InputStream;
-import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -148,13 +146,16 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
     }
 
     private void uploadSelectedImage(Uri imageUri) {
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
         Log.d("ImageUri", imageUri.toString());
         // Create a storage reference to the cloud storage
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
         // Generate a unique ID for the uploaded file
-        String fileId = UUID.randomUUID().toString();
+//        String fileId = UUID.randomUUID().toString();
         // Create a storage reference with the unique ID as the filename
-        StorageReference imageRef = storageRef.child("images/" + fileId);
+        StorageReference imageRef = storageRef.child("images/" + uid + ".jpg");
 
         // Upload the image file to Firebase Storage
         imageRef.putFile(imageUri)
@@ -168,12 +169,6 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                                 // Handle the download URL of the uploaded image here
                                 String imageUrl = downloadUri.toString();
                                 Log.d("downloadUri", imageUrl);
-
-                                // Store the download URL in SharedPreferences
-                                SharedPreferences preferences = getSharedPreferences("ImagePrefs", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = preferences.edit();
-                                editor.putString("imageUrl", imageUrl);
-                                editor.apply();
 
                                 // Declaring executor to parse the URL
                                 ExecutorService executor = Executors.newSingleThreadExecutor();
