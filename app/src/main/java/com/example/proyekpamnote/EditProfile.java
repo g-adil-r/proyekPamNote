@@ -58,7 +58,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         btnUpdateProfile = findViewById(R.id.btnLogout);
         etNama = findViewById(R.id.etNama);
         etUsername = findViewById(R.id.etUsername);
-        etEmail = findViewById(R.id.etEmail);
+//        etEmail = findViewById(R.id.etEmail);
         etOldPassword = findViewById(R.id.etNewPassword);
         etNewPassword = findViewById(R.id.etOldPassword);
 
@@ -168,6 +168,10 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                             public void onSuccess(Uri downloadUri) {
                                 // Handle the download URL of the uploaded image here
                                 String imageUrl = downloadUri.toString();
+
+                                DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
+                                updateRef.child("downloadUri").setValue(imageUrl);
+
                                 Log.d("downloadUri", imageUrl);
 
                                 // Declaring executor to parse the URL

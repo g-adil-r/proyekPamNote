@@ -1,7 +1,6 @@
 package com.example.proyekpamnote;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -39,6 +38,7 @@ public class tampilNote extends AppCompatActivity implements View.OnClickListene
     RecyclerView noteView;
     DatabaseReference dbNote;
     NoteAdapter noteAdapter;
+    String imageUrl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,12 +89,29 @@ public class tampilNote extends AppCompatActivity implements View.OnClickListene
                 startActivity(new Intent(getApplicationContext(), CreateNote.class))
         );
 
-        // Store the download URL in SharedPreferences
-        SharedPreferences preferences = getSharedPreferences("ImagePrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
 
-        editor.putString("imageUrl", user.getUid());
-        editor.apply();
+        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Initialize a DataSnapshot object with the retrieved data
+//                DataSnapshot snapshot = dataSnapshot;
+                if (dataSnapshot.exists()) {
+                    imageUrl = dataSnapshot.child("downloadUrl").getValue(String.class);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
         // Retrieve the download URL from SharedPreferences
 //        SharedPreferences preferences = getSharedPreferences("ImagePrefs", MODE_PRIVATE);
         // Declaring executor to parse the URL
@@ -113,7 +130,6 @@ public class tampilNote extends AppCompatActivity implements View.OnClickListene
             @Override
             public void run() {
                 // Image URL
-                String imageUrl = preferences.getString("imageUrl", null);
                 // Tries to get the image and post it in the ImageView
                 // with the help of Handler
                 try {

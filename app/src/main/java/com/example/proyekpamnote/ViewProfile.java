@@ -1,7 +1,6 @@
 package com.example.proyekpamnote;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -35,6 +34,7 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
     Button btnLogout, btnProfile, btnReturn;
     TextView tvNama, tvEmail;
     ImageView profileImage;
+    String imageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +72,7 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
                 if (dataSnapshot.exists()) {
                     String username = dataSnapshot.child("username").getValue(String.class);
                     String email = user.getEmail();
+                    imageUrl = dataSnapshot.child("downloadUrl").getValue(String.class);
                     // Update the EditText fields with the retrieved values
                     tvNama.setText(username);
                     tvEmail.setText(email);
@@ -83,16 +84,6 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
 
             }
         });
-
-
-        // Store the download URL in SharedPreferences
-        SharedPreferences preferences = getSharedPreferences("ImagePrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-
-        editor.putString("imageUrl", uid);
-        editor.apply();
-        // Retrieve the download URL from SharedPreferences
-//        SharedPreferences preferences = getSharedPreferences("ImagePrefs", MODE_PRIVATE);
         // Declaring executor to parse the URL
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -108,8 +99,6 @@ public class ViewProfile extends AppCompatActivity implements View.OnClickListen
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                // Image URL
-                String imageUrl = preferences.getString("imageUrl", null);
 //                Log.d("imageUrl", imageUrl);
                 // Tries to get the image and post it in the ImageView
                 // with the help of Handler
