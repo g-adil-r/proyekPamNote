@@ -91,10 +91,13 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                     Toast.makeText(Register.this, user.toString(),Toast.LENGTH_SHORT).show();
                     String uid = user.getUid();
                     String username = String.valueOf(editUsername.getText());
+                    String nama = String.valueOf(editNama.getText());
 
                     DatabaseReference updateRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
 
                     updateRef.child("username").setValue(username);
+                    updateRef.child("nama").setValue(nama);
+
                 } else {
                     Log.d(TAG, "createUserWithEmail:failure", task.getException());
                     Toast.makeText(Register.this, task.getException().toString(), Toast.LENGTH_SHORT).show();

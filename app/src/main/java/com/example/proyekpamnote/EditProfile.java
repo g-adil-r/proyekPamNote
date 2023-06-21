@@ -82,7 +82,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
 
         String uid = user.getUid();
 
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("notes").child(uid);
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("profiles").child(uid);
 
         databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -92,7 +92,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                 if (dataSnapshot.exists()) {
                     String nama = dataSnapshot.child("nama").getValue(String.class);
                     String username = dataSnapshot.child("username").getValue(String.class);
-                    String email = dataSnapshot.child("email").getValue(String.class);
+                    String email = user.getEmail();
 
                     // Update the EditText fields with the retrieved values
                     etNama.setText(nama);
