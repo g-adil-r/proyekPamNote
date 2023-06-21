@@ -1,6 +1,7 @@
 package com.example.proyekpamnote;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -63,7 +64,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         etUsername = findViewById(R.id.etUsername);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
-        btnUpdateImage = findViewById(R.id.btnImage);
+        btnUpdateImage = findViewById(R.id.profileImage);
 
         btnBackEdit.setOnClickListener(this);
         btnUpdateProfile.setOnClickListener(this);
@@ -117,7 +118,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
             case R.id.btnBackEdit:
                 back();
                 break;
-            case R.id.btnImage:
+            case R.id.profileImage:
                 updateImage();
                 break;
             case R.id.btnLogout:
@@ -166,8 +167,13 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                             public void onSuccess(Uri downloadUri) {
                                 // Handle the download URL of the uploaded image here
                                 String imageUrl = downloadUri.toString();
-//                                btnUpdateImage.setImageURI(downloadUri);
                                 Log.d("downloadUri", imageUrl);
+
+                                    // Store the download URL in SharedPreferences
+                                    SharedPreferences preferences = getSharedPreferences("ImagePrefs", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putString("imageUrl", imageUrl);
+                                    editor.apply();
 
                                 // Declaring executor to parse the URL
                                 ExecutorService executor = Executors.newSingleThreadExecutor();
