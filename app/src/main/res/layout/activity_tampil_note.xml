@@ -23,10 +23,10 @@
         android:id="@+id/imageView7"
         android:layout_width="0dp"
         android:layout_height="68dp"
+        android:background="#CE826A"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/bg_coklat" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imgProf"
@@ -72,7 +72,8 @@
         app:layout_constraintBottom_toTopOf="@id/imageView7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView6" />
+        app:layout_constraintTop_toBottomOf="@id/textView6"
+        tools:visibility="invisible" />
 
     <ImageView
         android:id="@+id/bt_add_note"
