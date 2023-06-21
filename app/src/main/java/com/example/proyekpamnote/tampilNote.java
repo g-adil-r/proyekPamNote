@@ -23,7 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class tampilNote extends AppCompatActivity {
+public class tampilNote extends AppCompatActivity implements View.OnClickListener{
     ImageView btAddNote, imgProf;
     FirebaseUser user;
     ProgressBar progressBar;
@@ -46,6 +46,8 @@ public class tampilNote extends AppCompatActivity {
         btAddNote = findViewById(R.id.bt_add_note);
         progressBar = findViewById(R.id.progressBar);
         imgProf =  findViewById(R.id.imgProf);
+
+        imgProf.setOnClickListener(this);
 
         dbNote = FirebaseDatabase.getInstance().getReference()
                 .child("notes")
@@ -86,6 +88,7 @@ public class tampilNote extends AppCompatActivity {
         Glide.with(getApplicationContext())
                 .load(imageUrl)
                 .override(60, 60)
+                .error(R.drawable.profile)
                 .into(imgProf);
     }
 
@@ -100,4 +103,21 @@ public class tampilNote extends AppCompatActivity {
         super.onStop();
         noteAdapter.stopListening();
     }
-}
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.imgProf:
+                profile();
+                break;
+    }
+    }
+
+        private void profile() {
+            try {
+                startActivity(new Intent(tampilNote.this, EditProfile.class));
+            } catch (Exception e) {
+                Toast.makeText(tampilNote.this, "Gagal masuk edit profile", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
