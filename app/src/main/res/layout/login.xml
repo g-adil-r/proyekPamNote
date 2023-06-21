@@ -62,10 +62,11 @@
         android:ems="10"
         android:fontFamily="@font/inter_semibold"
         android:hint="Password"
-        android:inputType="textEmailAddress"
+        android:inputType="textPassword"
         android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_email" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
